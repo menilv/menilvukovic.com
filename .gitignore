@@ -27,12 +27,9 @@ yarn-error.log*
 # Other
 .sisyphus/
 AGENTS.md
-deployment/
-*.log
-.sisyphus/
-AGENTS.md
-CNAME
+
 # .github/ is NOT ignored - needed for GitHub Actions
 .github/
-.github/
-deployment/
+
+# Ruff cache
+.ruff_cache/

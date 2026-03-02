@@ -12,7 +12,7 @@ layout: base.njk
         <span>
           {%- for tag in tags -%}
             {%- if tag != 'post' -%}
-            <span class="tag" style="margin-left: var(--space-2);">{{ tag }}</span>
+            <span class="tag">{{ tag }}</span>
             {%- endif -%}
           {%- endfor -%}
         </span>
@@ -24,8 +24,8 @@ layout: base.njk
     {{ content | safe }}
   </div>
   
-  <footer class="container container-narrow" style="margin-top: var(--space-16); padding-top: var(--space-8); border-top: 1px solid var(--border-subtle);">
-    <p style="color: var(--text-tertiary); font-size: var(--text-sm);">
+  <footer class="article-footer container container-narrow">
+    <p class="article-footer-text">
       Thanks for reading. Want to discuss this post? 
       <a href="https://twitter.com/MenilVukovic" target="_blank" rel="noopener">Find me on Twitter</a> or
       <a href="mailto:hello@menilvukovic.com">send me an email</a>.
