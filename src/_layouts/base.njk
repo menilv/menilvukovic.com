@@ -433,6 +433,88 @@ main {
       document.body.appendChild(s);
     });
   </script>
+  <script>
+    (function() {
+      const titles = ['Menil Vuković', 'Engineer', 'CEO', 'Writer', 'Founder', 'Builder'];
+      let currentIndex = 0;
+      const flipTitle = document.getElementById('flipTitle');
+      if (!flipTitle) return;
+      const front = flipTitle.querySelector('.flip-title-front');
+      if (!front) return;
+      const flipOutMs = 220;
+      const flipInMs = 220;
+      const cycleDelayMs = 2000;
+      let isAnimating = false;
+
+      front.textContent = titles[0];
+      front.classList.toggle('is-accent', currentIndex !== 0);
+
+      function lockFlipWidth() {
+        const computed = window.getComputedStyle(front);
+        const measurer = document.createElement('span');
+        measurer.style.position = 'absolute';
+        measurer.style.visibility = 'hidden';
+        measurer.style.whiteSpace = 'nowrap';
+        measurer.style.fontFamily = computed.fontFamily;
+        measurer.style.fontSize = computed.fontSize;
+        measurer.style.fontWeight = computed.fontWeight;
+        measurer.style.letterSpacing = computed.letterSpacing;
+        measurer.style.lineHeight = computed.lineHeight;
+        document.body.appendChild(measurer);
+
+        let maxWidth = 0;
+        for (const title of titles) {
+          measurer.textContent = title;
+          maxWidth = Math.max(maxWidth, Math.ceil(measurer.getBoundingClientRect().width));
+        }
+
+        document.body.removeChild(measurer);
+        flipTitle.style.setProperty('--flip-title-width', maxWidth + 'px');
+      }
+
+      lockFlipWidth();
+      window.addEventListener('resize', lockFlipWidth);
+      
+      function getNextTitle() {
+        currentIndex = (currentIndex + 1) % titles.length;
+        return titles[currentIndex];
+      }
+
+      function scheduleNext() {
+        window.setTimeout(flip, cycleDelayMs);
+      }
+
+      function flip() {
+        if (isAnimating) {
+          scheduleNext();
+          return;
+        }
+
+        isAnimating = true;
+        front.classList.add('is-flipping-out');
+
+        setTimeout(function() {
+          front.textContent = getNextTitle();
+          front.classList.toggle('is-accent', currentIndex !== 0);
+          front.classList.remove('is-flipping-out');
+          front.classList.add('is-flipping-in');
+
+          requestAnimationFrame(function() {
+            requestAnimationFrame(function() {
+              front.classList.remove('is-flipping-in');
+            });
+          });
+
+          setTimeout(function() {
+            isAnimating = false;
+            scheduleNext();
+          }, flipInMs);
+        }, flipOutMs);
+      }
+
+      scheduleNext();
+    })();
+  </script>
 </body>
 
 </html>

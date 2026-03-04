@@ -646,6 +646,25 @@ table tr:not(.total-row):nth-child(even) td {
     -webkit-user-drag: none;
 }
 
+.lightbox-left-zone,
+.lightbox-right-zone {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: 25%;
+    z-index: 5;
+    cursor: pointer;
+    -webkit-tap-highlight-color: transparent;
+}
+
+.lightbox-left-zone {
+    left: 0;
+}
+
+.lightbox-right-zone {
+    right: 0;
+}
+
 .lightbox-close,
 .lightbox-prev,
 .lightbox-next {
@@ -658,6 +677,7 @@ table tr:not(.total-row):nth-child(even) td {
     align-items: center;
     justify-content: center;
     transition: background 0.2s, opacity 0.2s;
+    z-index: 10;
 }
 
 .lightbox-close {
@@ -719,62 +739,6 @@ table tr:not(.total-row):nth-child(even) td {
     padding: 0.5rem 1rem;
     border-radius: 1rem;
     pointer-events: none;
-}
-
-/* =========================================
-   10. FOOTER & LINKS
-   ========================================= */
-
-   ========================================= */
-.lightbox {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    z-index: 100;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.3s ease;
-    padding: 1rem;
-}
-
-.lightbox.active {
-    opacity: 1;
-    pointer-events: auto;
-}
-
-.lightbox img {
-    max-width: 100%;
-    max-height: 90vh;
-    border-radius: var(--radius-sm);
-    box-shadow: var(--shadow-lg);
-}
-
-.lightbox button {
-    position: absolute;
-    top: 1rem;
-    right: 1rem;
-    background: rgba(255, 255, 255, 0.1);
-    color: white;
-    border: none;
-    width: 40px;
-    height: 40px;
-    border-radius: 50%;
-    font-size: 1.5rem;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s;
-}
-
-.lightbox button:hover {
-    background: rgba(255, 255, 255, 0.3);
 }
 
 /* =========================================
