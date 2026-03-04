@@ -120,6 +120,7 @@ async function mainMenu() {
     { name: 'Edit existing post', value: 'edit' },
     { name: 'List all posts', value: 'list' },
     { name: 'Delete post', value: 'delete' },
+    { name: 'Commit & Push', value: 'commit' },
   ];
   
   if (drafts.length > 0) {
@@ -151,6 +152,9 @@ async function mainMenu() {
       break;
     case 'delete':
       await deletePost();
+      break;
+    case 'commit':
+      await commitAndPush();
       break;
     case 'drafts':
       await draftsMenu();
@@ -337,6 +341,19 @@ async function deletePost() {
     const filepath = path.join(POSTS_DIR, selectedPost);
     fs.unlinkSync(filepath);
     console.log(chalk.green(`\n✅ Deleted: ${selectedPost}\n`));
+    
+    const { shouldBuild } = await inquirer.prompt([
+      {
+        type: 'confirm',
+        name: 'shouldBuild',
+        message: 'Build the site?',
+        default: true
+      }
+    ]);
+    
+    if (shouldBuild) {
+      await runBuild();
+    }
   } else {
     console.log(chalk.gray('\nCancelled.\n'));
   }
@@ -482,6 +499,39 @@ async function deleteDraft() {
     console.log(chalk.green(`\n✅ Deleted: ${selectedDraft}\n`));
   } else {
     console.log(chalk.gray('\nCancelled.\n'));
+  }
+}
+
+async function commitAndPush() {
+  const { message } = await inquirer.prompt([
+    {
+      type: 'input',
+      name: 'message',
+      message: 'Commit message:',
+      validate: (input) => input.trim().length > 0 || 'Commit message is required'
+    }
+  ]);
+  
+  console.log(chalk.gray('\n📦 Committing and pushing...\n'));
+  
+  const git = (cmd) => new Promise((resolve, reject) => {
+    const proc = spawn(cmd, { shell: true, cwd: SITE_DIR });
+    let output = '';
+    proc.stdout.on('data', (data) => output += data);
+    proc.stderr.on('data', (data) => output += data);
+    proc.on('close', (code) => {
+      if (code === 0) resolve(output);
+      else reject(new Error(output || `Command failed with code ${code}`));
+    });
+  });
+  
+  try {
+    await git('git add -A');
+    await git(`git commit -m "${message}"`);
+    await git('git push');
+    console.log(chalk.green('\n✅ Committed and pushed!\n'));
+  } catch (err) {
+    console.log(chalk.red(`\n❌ ${err.message}\n`));
   }
 }
 
