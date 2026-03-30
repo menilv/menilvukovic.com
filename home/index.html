@@ -6,6 +6,182 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Pofalici House Reconstruction</title>
     <link rel="stylesheet" href="./styles.css">
+    <!-- Pretext Library for Text Measurement -->
+    <script src="https://cdn.jsdelivr.net/npm/@chenglou/pretext@latest/dist/pretext.min.js"></script>
+    <script>
+    // Pretext Text Measurement Demo
+const pretextDemo = {
+  init() {
+    this.samples = [
+      { id: 'sample1', text: 'This is a test text that will be measured using the Pretext library. It handles multiline text layout efficiently.', css: { fontSize: '16px', fontFamily: 'Inter, sans-serif' } },
+      { id: 'sample2', text: 'Pofalici House Reconstruction - A detailed architectural and cultural heritage preservation project. We analyze historical documents, create 3D models, and plan the reconstruction with modern technology integration.', css: { fontSize: '14px', fontFamily: 'Georgia, serif' } },
+      { id: 'sample3', text: 'Budget allocation for the reconstruction project includes structural analysis, historical research, architectural design, construction supervision, and digital documentation.', css: { fontSize: '18px', fontWeight: 'bold', fontFamily: 'Arial, sans-serif' } }
+    ];
+
+    this.results = {};
+    this.initUI();
+  },
+
+  initUI() {
+    const container = document.getElementById('pretext-demo-container');
+    if (!container) {
+      const demoContainer = document.createElement('div');
+      demoContainer.id = 'pretext-demo-container';
+      demoContainer.className = 'pretext-demo-section';
+      demoContainer.innerHTML = `
+        <h2>Text Measurement Demo</h2>
+        <p>Testing Pretext library with different text samples and constraints:</p>
+        <div class="demo-controls">
+          <div id="demo-results"></div>
+        </div>
+      `;
+      document.querySelector('.page-content').insertBefore(demoContainer, document.getElementById('overview').nextElementSibling);
+    }
+
+    this.renderDemoResults();
+  },
+
+  prepareText(text, options = {}) {
+    const font = this.getComputedStyleFont();
+    return Pretext.prepare(text, font, options);
+  },
+
+  layoutText(prepared, maxWidth, lineHeight) {
+    return Pretext.layout(prepared, maxWidth, lineHeight);
+  },
+
+  getComputedStyleFont() {
+    return '16px Inter, sans-serif';
+  },
+
+  calculateMetrics(text, maxWidth, lineHeight, font = null) {
+    const fontToUse = font || this.getComputedStyleFont();
+    const prepared = this.prepareText(text, { font: fontToUse });
+    const layoutResult = this.layoutText(prepared, maxWidth, lineHeight);
+    
+    return {
+      text: text,
+      maxWidth: maxWidth,
+      lineHeight: lineHeight,
+      height: layoutResult.height,
+      lineCount: layoutResult.lineCount,
+      width: layoutResult.width,
+      font: fontToUse
+    };
+  },
+
+  renderDemoResults() {
+    const resultsDiv = document.getElementById('demo-results');
+    if (!resultsDiv) return;
+
+    const html = this.samples.map((sample, index) => {
+      const metrics1 = this.calculateMetrics(sample.text, 320, 24);
+      const metrics2 = this.calculateMetrics(sample.text, 500, 32);
+      const metrics3 = this.calculateMetrics(sample.text, 700, 40);
+
+      return `
+        <div class="demo-sample" style="margin-bottom: 30px;">
+          <h3>Sample ${index + 1}: ${sample.text.substring(0, 60)}...</h3>
+          <div class="demo-grid">
+            <div class="demo-card">
+              <h4>320px × 24px</h4>
+              <p>Height: ${metrics1.height.toFixed(0)}px</p>
+              <p>Lines: ${metrics1.lineCount}</p>
+              <p>Width: ${metrics1.width.toFixed(0)}px</p>
+            </div>
+            <div class="demo-card">
+              <h4>500px × 32px</h4>
+              <p>Height: ${metrics2.height.toFixed(0)}px</p>
+              <p>Lines: ${metrics2.lineCount}</p>
+              <p>Width: ${metrics2.width.toFixed(0)}px</p>
+            </div>
+            <div class="demo-card">
+              <h4>700px × 40px</h4>
+              <p>Height: ${metrics3.height.toFixed(0)}px</p>
+              <p>Lines: ${metrics3.lineCount}</p>
+              <p>Width: ${metrics3.width.toFixed(0)}px</p>
+            </div>
+          </div>
+          <div class="demo-text-wrapper">
+            <div class="demo-text" style="max-width: 320px; line-height: 24px;">
+              ${sample.text}
+            </div>
+          </div>
+        </div>
+      `;
+    }).join('');
+
+    resultsDiv.innerHTML = html;
+  }
+};
+
+// Initialize when DOM is ready
+document.addEventListener('DOMContentLoaded', () => {
+  pretextDemo.init();
+});
+</script>
+<style>
+.pretext-demo-section {
+  padding: 2rem 0;
+  background: #f8f9fa;
+  border-top: 1px solid #e9ecef;
+}
+
+.pretext-demo-section h2 {
+  color: #212529;
+  margin-bottom: 0.5rem;
+}
+
+.demo-controls {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.demo-sample h3 {
+  font-size: 14px;
+  color: #6c757d;
+  margin-bottom: 1rem;
+}
+
+.demo-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.demo-card {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  font-family: 'Courier New', monospace;
+  font-size: 13px;
+}
+
+.demo-card h4 {
+  margin: 0 0 0.5rem 0;
+  color: #212529;
+  font-size: 14px;
+}
+
+.demo-card p {
+  margin: 0.25rem 0;
+  color: #495057;
+}
+
+.demo-text-wrapper {
+  background: white;
+  padding: 1rem;
+  border-radius: 8px;
+  border: 1px solid #dee2e6;
+}
+
+.demo-text {
+  line-height: 1.5;
+  color: #212529;
+}
+</style>
 </head>
 
 <body class="light-mode" data-lang="bs">

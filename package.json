@@ -25,5 +25,8 @@
     "gray-matter": "^4.0.3",
     "inquirer": "^9.2.12",
     "terser": "^5.19.0"
+  },
+  "dependencies": {
+    "@chenglou/pretext": "^0.0.3"
   }
 }
