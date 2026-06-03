@@ -15,8 +15,7 @@ module.exports = function (eleventyConfig) {
   eleventyConfig.addPassthroughCopy("src/css");
   eleventyConfig.addPassthroughCopy("src/js");
 
-  // Copy the existing home project folder (hidden project)
-  eleventyConfig.addPassthroughCopy({ "home": "home" });
+
 
   // Copy CNAME for GitHub Pages custom domain
   eleventyConfig.addPassthroughCopy("CNAME");
