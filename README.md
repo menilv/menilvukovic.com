@@ -1,6 +1,6 @@
 # menilvukovic.com
 
-Personal website of Menil Vuković — Engineer, CEO, Writer.
+Personal website of Menil Vuković — Engineer, CEO, Writer, Father.
 
 Built with [Eleventy](https://www.11ty.dev/) and deployed to GitHub Pages.
 
