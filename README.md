@@ -25,19 +25,6 @@ npm start
 npm run build
 ```
 
-## Hidden Projects
-
-The site supports "hidden projects" — pages that exist but aren't linked from navigation. These are accessible only by direct URL.
-
-To create a hidden project:
-1. Add `hidden: true` to the project frontmatter
-2. The project won't appear in `/projects/` listing
-3. It will still be built and accessible by direct URL
-
-## Easter Eggs
-
-- **Konami Code**: Press `↑ ↑ ↓ ↓ ← → ← → B A` anywhere on the site for a surprise
-
 ## Design
 
 Modern Minimal aesthetic — Swiss-inspired, engineering precision:

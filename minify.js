@@ -19,7 +19,7 @@ async function minify() {
 
   // JS files
   console.log("Minifying JS files...");
-  const jsFiles = ["_site/js/theme.js", "_site/js/konami.js"];
+  const jsFiles = ["_site/js/theme.js"];
   for (const file of jsFiles) {
     if (fs.existsSync(file)) {
       const content = fs.readFileSync(file, "utf8");
