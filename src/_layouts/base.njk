@@ -410,7 +410,9 @@ main {
 }
   </style>
   <link rel="stylesheet" href="/css/main.css">
+  {% if layout == 'post.njk' %}
   <link rel="stylesheet" href="/css/syntax.css">
+  {% endif %}
 </head>
 
 <body>
@@ -472,8 +474,17 @@ main {
         flipTitle.style.setProperty('--flip-title-width', maxWidth + 'px');
       }
 
-      lockFlipWidth();
-      window.addEventListener('resize', lockFlipWidth);
+      // Defer measurement to next frame to prevent render-blocking reflow during parsing
+      requestAnimationFrame(function() {
+        lockFlipWidth();
+      });
+
+      // Debounce window resize listener to avoid performance degradation
+      let resizeTimeout;
+      window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(lockFlipWidth, 100);
+      });
       
       function getNextTitle() {
         currentIndex = (currentIndex + 1) % titles.length;
