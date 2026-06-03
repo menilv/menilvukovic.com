@@ -22,7 +22,6 @@
 - [Budget](./budget/budget.md) - Detailed cost breakdown
 - [Timeline](./timeline/timeline.md) - Phase-by-phase schedule
 - [Decisions](./decisions/decisions.md) - Key decisions made
-- [Research](./research/) - Research notes
 
 ## Quick Stats
 
